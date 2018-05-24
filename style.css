@@ -1,0 +1,131 @@
+body {
+    background-color: rgb(239,249,252);
+    margin: 0;
+}
+
+.lookup p {
+    font-size: 32px;
+    font-family: Helvetica, sans-serif;
+    text-align: center;
+}
+
+.lookup {
+    padding-top: 50px;
+    /* margin-bottom: 50px; */
+    text-align: center;
+}
+
+h1 {
+    color: black;
+    font-family: Helvetica, sans-serif;
+}
+
+.box {
+    background-color: white;
+    box-shadow: 2px 2px 8px #888888;
+    width: 97%;
+    /* height: 100%; */
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    /* display: block; */
+    padding-right: 15px;
+    overflow: hidden;
+}
+
+.box:hover {
+    background-color: azure;
+}
+
+.box .line {
+    background-color: orange;
+    width: 10%;
+    /* height: auto; */
+    position: relative;
+}
+
+.highlight {
+    background-color: yellow;
+    /* color: white; */
+  }
+.box .username {
+    color: orange;
+    text-align: left;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 12px;
+    padding-left: 15px;
+    padding-top: 0px;
+    /* position: relative;
+    top: 40%; */
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+}
+
+.box .subreddit {
+    color: gray;
+    display: inline-block;
+    font-size: 10px;
+    padding-left: 4px;
+    vertical-align: sup;
+    font-family: 'Nunito Sans', sans-serif;
+}
+
+.box .msg {
+    color: black;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    position: relative;
+    bottom: 25px;
+    padding-left: 15px;
+    font-family: 'Nunito Sans', sans-serif;
+    /* display: inline-block; */
+}
+
+.box .viewpost {
+    color: gray;
+    font-family: 'Nunito Sans', sans-serif;
+    font-size: 10px;
+    text-align: right;
+    text-transform: uppercase;
+    margin-top: -30px;
+    margin-bottom: 10px;
+    text-decoration: none;
+}
+
+.viewpost a:link {
+    color: gray;
+    text-decoration: none;
+}
+
+.viewpost a:hover {
+    color: orange;
+    text-decoration: none;
+}
+
+#nav {
+    background-color: orange;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    z-index: 10;
+}
+
+#nav h1 {
+    color: white;
+    margin-left: 30px;
+    display: inline-block;
+}
+
+#nav div {
+    color: white;
+    float: right;
+    font-family: 'Nunito Sans', sans-serif;
+    margin-top: 28px;
+    margin-right: 25px;
+    font-size: 14px;
+    text-transform: lowercase;
+    letter-spacing: 0.1em;
+}
