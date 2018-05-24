@@ -1,11 +1,5 @@
-// const oboe = require('oboe');
-
 let body = document.body;
 let postList = document.getElementById("postList");
-
-// let button = document.createElement("button");
-// button.appendChild(document.createTextNode("Create a new box"));
-// body.appendChild(button);
 
 function getRandomInt(max) {
 	return Math.floor(Math.random() * Math.floor(max));
@@ -32,11 +26,6 @@ function highlight(element, text) {
 			index = index + 32;
 		}
 	} while (index > -1);
-
-	// if (index >= 0) { 
-	// 	innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-	// 	element.innerHTML = innerHTML;
-	// }
 };
 
 function timeSince(date) {
@@ -68,9 +57,6 @@ let aDay = 24*60*60*1000;
 function newBox(Username, Subreddit, Msg, link, keyword) {
 	let div = document.createElement("div");
 	div.setAttribute("class", "box");
-	// if (getRandomInt(2) == 0) {
-	// 	div.setAttribute("class", "box right");
-	// }
 
 	let line = document.createElement("div");
 	line.setAttribute("class", "line");
@@ -93,7 +79,6 @@ function newBox(Username, Subreddit, Msg, link, keyword) {
 	for (let i = 0; i < keywords.length; i++) {
 		highlight(msg, keywords[i]);
 	}
-	// highlight(msg, keyword);
 
 	let viewpostDiv = document.createElement("div");
 	viewpostDiv.setAttribute("class", "viewpost");
@@ -112,8 +97,6 @@ function newBox(Username, Subreddit, Msg, link, keyword) {
 	div.appendChild(viewpostDiv);
 
 	postList.appendChild(div);
-	// body.insertBefore(div, button);
-	// body.appendChild(div);
 }
 
 function clearBoxes() {
@@ -121,16 +104,6 @@ function clearBoxes() {
 		postList.removeChild(postList.firstChild);
 	}
 }
-
-// fetch("https://pwrism.com/api/v1/options").then(function(response) {
-// 	console.log(response);
-// });
-
-// fetch("https://pwrism.com/api/v1/options").then(function(response) {
-// 	response.json().then(function(text) {
-// 		console.log(text);
-// 	});
-// });
 
 function request(url, callback) {
 	return new Promise(function(resolve, reject) {
@@ -144,15 +117,6 @@ function request(url, callback) {
 	});
 }
 
-// (async function() {
-// 	console.log("a");
-// 	await request("https://pwrism.com/api/v1/options", (text, response) => {
-// 		console.log(text + response.status);
-// 	});
-// 	console.log("b");
-// })();
-
-
 let lookupButton = document.getElementById("lookupButton");
 let lookupInput = document.getElementById("lookupInput");
 lookupInput.addEventListener("keyup", function(e) {
@@ -163,25 +127,6 @@ lookupInput.addEventListener("keyup", function(e) {
 lookupButton.addEventListener("click", function() {
 	snoop();
 });
-
-// function snoop() {
-// 	if (lookupInput.value == "") {
-// 		return;
-// 	}
-	// request("https://api.pushshift.io/reddit/search/comment/?q=" + lookupInput.value + "&size=50", function(data, response) {
-	// 	clearBoxes();
-	// 	if (response.status != 200) {
-	// 		// TODO: Display error
-	// 		return;
-	// 	}
-
-	// 	for (const post of data.data) {
-	// 		let date = new Date();
-	// 		date.setTime(post.created_utc*1000);
-	// 		newBox(post.author, "/r/" + post.subreddit + " - " + timeSince(date) + " ago", post.body, post.permalink, lookupInput.value);	
-	// 	}
-	// });
-// }
 
 function snoop() {
 	if (lookupInput.value == "") {
@@ -196,28 +141,8 @@ function snoop() {
 		newBox(post.author, "/r/" + post.subreddit + " - " + timeSince(date) + " ago", post.body, post.permalink, lookupInput.value);	
 	})
    .done(function(things) {
-		// console.log("got it");
       // we got it
    })
    .fail(function() {
-		// console.log("dont got it");
       // we don't got it
 });
-}
-
-// oboe("https://api.pushshift.io/reddit/search/comment/?q=test")
-// 	.node('data.*', function( thing ){
-
-// 		// This callback will be called everytime a new object is
-// 		// found in the foods array.
-
-// 		console.log(thing);
-// 	})
-//    .done(function(things) {
-// 		console.log("got it");
-//       // we got it
-//    })
-//    .fail(function() {
-// 		console.log("dont got it");
-//       // we don't got it
-// });
