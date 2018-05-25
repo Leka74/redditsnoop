@@ -14,14 +14,12 @@ function htmlDecode(input){
 function highlight(element, text) {
 	text = text.replace("\"", "");
 	let innerHTML = element.innerHTML;
-	let innerHTML2 = innerHTML.toUpperCase();
 	
 	let index = 0;
 	do {
-		index = innerHTML2.indexOf(text.toUpperCase(), index);
+		index = innerHTML.toLowerCase().indexOf(text.toLowerCase(), index);
 		if (index >= 0) { 
 			innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-			innerHTML2 = innerHTML.toUpperCase();
 			element.innerHTML = innerHTML;
 			index = index + 32;
 		}
@@ -52,7 +50,6 @@ function timeSince(date) {
 	}
 	return Math.floor(seconds) + " seconds";
   }
-let aDay = 24*60*60*1000;
 
 function newBox(Username, Subreddit, Msg, link, keyword) {
 	let div = document.createElement("div");
@@ -135,14 +132,15 @@ function snoop() {
 	clearBoxes();
 	oboe("https://api.pushshift.io/reddit/search/comment/?q=" + lookupInput.value + "&size=500")
 	.node('data.*', function( post ){
-		console.log("Post by: " + post.author);
+		// console.log("Post by: " + post.author);
 		let date = new Date();
 		date.setTime(post.created_utc*1000);
 		newBox(post.author, "/r/" + post.subreddit + " - " + timeSince(date) + " ago", post.body, post.permalink, lookupInput.value);	
 	})
    .done(function(things) {
-      // we got it
+      // TODO: Done
    })
    .fail(function() {
-      // we don't got it
-});
+	  // TODO: Failed
+   });
+};
