@@ -1,30 +1,21 @@
-let body = document.body;
 let postList = document.getElementById("postList");
 
-function getRandomInt(max) {
-	return Math.floor(Math.random() * Math.floor(max));
-}
+let snoopButton = document.getElementById("snoopButton");
+let snoopInput = document.getElementById("snoopInput");
+snoopInput.addEventListener("keyup", function(e) {
+	if (e.keyCode == 13) {
+		snoop();
+	}
+})
+snoopButton.addEventListener("click", function() {
+	snoop();
+});
 
 function htmlDecode(input){
 	var e = document.createElement('div');
 	e.innerHTML = input;
 	return e.childNodes[0].nodeValue;
 }
-
-function highlight(element, text) {
-	text = text.replace("\"", "");
-	let innerHTML = element.innerHTML;
-	
-	let index = 0;
-	do {
-		index = innerHTML.toLowerCase().indexOf(text.toLowerCase(), index);
-		if (index >= 0) { 
-			innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-			element.innerHTML = innerHTML;
-			index = index + 32;
-		}
-	} while (index > -1);
-};
 
 function timeSince(date) {
 	let seconds = Math.floor((new Date() - date) / 1000);
@@ -50,6 +41,23 @@ function timeSince(date) {
 	}
 	return Math.floor(seconds) + " seconds";
   }
+
+function highlight(element, text) {
+	text = text.replace("\"", "");
+	let innerHTML = element.innerHTML;
+	
+	let index = 0;
+	do {
+		index = innerHTML.toLowerCase().indexOf(text.toLowerCase(), index);
+		if (index >= 0) { 
+			innerHTML = innerHTML.substring(0,index) + "<span class='highlight'>" + innerHTML.substring(index,index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+            // innerHTML = innerHTML.substring(0,index) + "<mark>" + innerHTML.substring(index,index+text.length) + "</mark>" + innerHTML.substring(index + text.length);
+            element.innerHTML = innerHTML;
+            index = index + 32;
+            // index = index + 14;
+		}
+	} while (index > -1);
+};
 
 function newBox(Username, Subreddit, Msg, link, keyword) {
 	let div = document.createElement("div");
@@ -102,45 +110,42 @@ function clearBoxes() {
 	}
 }
 
-function request(url, callback) {
-	return new Promise(function(resolve, reject) {
-		fetch(url).then((response) => {
-			// callback(response);
-			response.json().then((text) => {
-				callback(text, response);
-				resolve();
-			});
-		});
-	});
+let errorMsg = document.getElementById("errorMsg");
+let searchingMsg = document.getElementById("searchingMsg");
+
+function showError(msg) {
+    errorMsg.innerHTML = msg;
+    errorMsg.style.display = "block";
 }
 
-let lookupButton = document.getElementById("lookupButton");
-let lookupInput = document.getElementById("lookupInput");
-lookupInput.addEventListener("keyup", function(e) {
-	if (e.keyCode == 13) {
-		snoop();
-	}
-})
-lookupButton.addEventListener("click", function() {
-	snoop();
-});
+function hideError() {
+    errorMsg.style.display = "none";
+}
 
 function snoop() {
-	if (lookupInput.value == "") {
+    let dataReceived = false;
+	if (snoopInput.value == "") {
 		return;
-	}
-	clearBoxes();
-	oboe("https://api.pushshift.io/reddit/search/comment/?q=" + lookupInput.value + "&size=500")
+    }
+    clearBoxes();
+    hideError();
+    searchingMsg.style.display = "block";
+	oboe("https://api.pushshift.io/reddit/search/comment/?q=" + snoopInput.value + "&size=500")
 	.node('data.*', function( post ){
-		// console.log("Post by: " + post.author);
+		if (!dataReceived) {
+            dataReceived = true;
+            searchingMsg.style.display = "none";
+        }
 		let date = new Date();
 		date.setTime(post.created_utc*1000);
-		newBox(post.author, "/r/" + post.subreddit + " - " + timeSince(date) + " ago", post.body, post.permalink, lookupInput.value);	
+        newBox(post.author, "/r/" + post.subreddit + " - " + timeSince(date) + " ago", post.body, post.permalink, snoopInput.value);
 	})
    .done(function(things) {
-      // TODO: Done
+      if (!dataReceived) {
+        showError("No result found. Please try another keyword.")
+      }
    })
    .fail(function() {
-	  // TODO: Failed
+	  showError("An error occured while searching the data. Please try again.")
    });
 };
