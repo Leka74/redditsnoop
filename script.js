@@ -114,6 +114,7 @@ let errorMsg = document.getElementById("errorMsg");
 let searchingMsg = document.getElementById("searchingMsg");
 
 function showError(msg) {
+	searchingMsg.style.display = "none";
     errorMsg.innerHTML = msg;
     errorMsg.style.display = "block";
 }
